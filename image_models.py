@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from ._models import RMSELoss, FeaturesEmbedding, FactorizationMachine_v
-
+import wandb
 
 class CNN_Base(nn.Module):
     def __init__(self, ):
@@ -49,6 +49,7 @@ class _CNN_FM(torch.nn.Module):
 class CNN_FM:
     def __init__(self, args, data):
         super().__init__()
+        wandb.config.update(args)
         self.device = args.DEVICE
         self.model = _CNN_FM(
                             np.array([len(data['user2idx']), len(data['isbn2idx'])], dtype=np.uint32),
@@ -66,6 +67,7 @@ class CNN_FM:
     def train(self):
         minimum_loss = 999999999
         loss_list = []
+        wandb.watch(self.model)
         tk0 = tqdm.tqdm(range(self.epochs), smoothing=0, mininterval=1.0)
         for epoch in tk0:
             self.model.train()
@@ -98,6 +100,9 @@ class CNN_FM:
                 self.optimizer.step()
                 val_total_loss += loss.item()
                 val_n += 1
+            wandb.log({
+                "Loss": val_total_loss/val_n
+                })
             if minimum_loss > (val_total_loss/val_n):
                 minimum_loss = (val_total_loss/val_n)
                 if not os.path.exists('./models'):

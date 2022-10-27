@@ -4,6 +4,7 @@ import tqdm
 import torch
 import torch.nn as nn
 from ._models import RMSELoss, FeaturesEmbedding, FactorizationMachine_v
+import wandb
 
 
 class CNN_1D(nn.Module):
@@ -67,6 +68,7 @@ class _DeepCoNN(nn.Module):
 class DeepCoNN:
     def __init__(self, args, data):
         super(DeepCoNN, self).__init__()
+        wandb.config.update(args)
         self.device = args.DEVICE
         self.model = _DeepCoNN(
                                 np.array([len(data['user2idx']), len(data['isbn2idx'])], dtype=np.uint32),
@@ -89,6 +91,7 @@ class DeepCoNN:
         minimum_loss = 999999999
         loss_list = []
         tk0 = tqdm.tqdm(range(self.epochs), smoothing=0, mininterval=1.0)
+        wandb.watch(self.model)
         for epoch in tk0:
             self.model.train()
             total_loss = 0
@@ -120,6 +123,10 @@ class DeepCoNN:
                 self.optimizer.step()
                 val_total_loss += loss.item()
                 val_n += 1
+            wandb.log({
+                "Train_Loss": total_loss/val_n,
+                "Valid_Loss": val_total_loss/val_n
+                })
             if minimum_loss > (val_total_loss/val_n):
                 minimum_loss = (val_total_loss/val_n)
                 if not os.path.exists('./models'):

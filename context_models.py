@@ -8,13 +8,13 @@ import torch.optim as optim
 
 from ._models import _FactorizationMachineModel, _FieldAwareFactorizationMachineModel
 from ._models import rmse, RMSELoss
-
+import wandb
 
 class FactorizationMachineModel:
 
     def __init__(self, args, data):
         super().__init__()
-
+        wandb.config.update(args)
         self.criterion = RMSELoss()
 
         self.train_dataloader = data['train_dataloader']
@@ -35,6 +35,7 @@ class FactorizationMachineModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
+        wandb.watch(self.model)
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
@@ -54,6 +55,10 @@ class FactorizationMachineModel:
                     total_loss = 0
 
             rmse_score = self.predict_train()
+            wandb.log({
+                "RMSE": rmse_score,
+                "Loss": total_loss
+                })
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
 
 
@@ -106,6 +111,7 @@ class FieldAwareFactorizationMachineModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
+        wandb.watch(self.model)
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
@@ -123,6 +129,10 @@ class FieldAwareFactorizationMachineModel:
                     total_loss = 0
 
             rmse_score = self.predict_train()
+            wandb.log({
+                "RMSE": rmse_score,
+                "Loss": total_loss
+                })
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
 
 
