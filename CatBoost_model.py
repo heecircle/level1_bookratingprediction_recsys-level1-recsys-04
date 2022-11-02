@@ -1,7 +1,4 @@
-import os
 import pandas as pd
-import numpy as np
-import catboost
 
 from catboost import CatBoostRegressor, Pool, metrics, cv
 from sklearn.metrics import accuracy_score
@@ -25,8 +22,8 @@ class CatBoost:
         self.learning_rate = args.LR
         self.seed = args.SEED
 
-        self.model = CatBoostRegressor(iterations=self.epochs, loss_function='RMSE', random_seed=self.seed, learning_rate=self.learning_rate, 
-            verbose=20)
+        self.model = CatBoostRegressor(iterations=self.epochs, depth=6, learning_rate=self.learning_rate, random_seed=self.seed,  
+            verbose=50)
 
 
     def train(self):
@@ -38,6 +35,11 @@ class CatBoost:
         )
 
 
+    def predict_train(self):
+        return self.model.get_best_score()
+
+
     def predict(self):
         predicts = self.model.predict(self.sub)
+        print(self.model.get_all_params)
         return predicts
