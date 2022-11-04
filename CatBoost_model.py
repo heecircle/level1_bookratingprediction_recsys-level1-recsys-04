@@ -1,8 +1,5 @@
-import pandas as pd
-
-from catboost import CatBoostRegressor, Pool, metrics, cv
-from sklearn.metrics import accuracy_score
-from ._models import rmse, RMSELoss
+from catboost import CatBoostRegressor
+from ._models import RMSELoss
 
 class CatBoost:
 
