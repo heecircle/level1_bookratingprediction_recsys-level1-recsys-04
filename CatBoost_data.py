@@ -1,5 +1,8 @@
+import numpy as np
 import pandas as pd
 from catboost import *
+from PIL import Image
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 
 
@@ -18,7 +21,7 @@ def cat_data_load(args):
 
     ######################## DATA LOAD
     users = pd.read_csv(args.DATA_PATH + 'users2.csv')
-    books = pd.read_csv(args.DATA_PATH + 'books2.csv')
+    books = pd.read_csv(args.DATA_PATH + 'books3.csv')
     train = pd.read_csv(args.DATA_PATH + 'train_ratings.csv')
     test = pd.read_csv(args.DATA_PATH + 'test_ratings.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
@@ -38,6 +41,11 @@ def cat_data_load(args):
     users_ = users.copy()
     books_ = books.copy()
     books_ = books_.drop(['img_url','img_path'],axis=1)
+    # arr_box = []
+    # for path in tqdm(books['img_path']):
+    #     img_arr = np.asarray(Image.open('data/'+path))
+    #     arr_box.append(img_arr.sum())
+    # books_['img_arr'] = arr_box                                      # books에 이미지 유무를 판단하는 img_arr 추가
 
     train = pd.merge(train, users_, on='user_id', how='left')
     sub = pd.merge(sub, users_, on='user_id', how='left')
