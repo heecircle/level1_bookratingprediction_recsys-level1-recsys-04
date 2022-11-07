@@ -74,10 +74,10 @@
   ```
   level1_bookratingprediction_recsys-level1-recsys-04
   │
-  ├── main.py - 
-  ├── ensemble.py - 
+  ├── main.py
+  ├── ensemble.py
   │
-  ├── data
+  ├── data/
   │   ├── books2.csv
   │   ├── books_clustering.csv
   │   ├── books_for_txtmodel.csv
@@ -92,7 +92,7 @@
   │   ├── cat_predict_km.csv
   │   └── users2.csv
   │
-  ├── src/ - models, losses, and metrics
+  ├── src/
   │   ├── data/
   │   │   ├── __init__.py
   │   │   ├── context_data.py
@@ -102,7 +102,7 @@
   │   │   └── text_data.py
   │   ├── data/
   │   │   └── ensembles.py
-  │   └── models
+  │   └── models/
   │   │   ├── _models.py
   │   │   ├── context_models.py
   │   │   ├── dl_models.py
