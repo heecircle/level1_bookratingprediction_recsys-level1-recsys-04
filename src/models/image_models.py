@@ -137,14 +137,9 @@ class CNN_FM:
 
         self.data = data
         no_exist = set(self.data['sub']['isbn']) - set(self.data['train']['isbn'])
-        # print(no_exist)
         i = 0
         with torch.no_grad():
             for data in tqdm.tqdm(test_data_loader):
-                # if i == 0:
-                #     i+=1
-                #     print(data['user_isbn_vector'][0][1])
-                #     print(int(data['user_isbn_vector'][0][1]))
 
                 if int(data['user_isbn_vector'][0][1]) in no_exist:
                     predicts.extend([-1])

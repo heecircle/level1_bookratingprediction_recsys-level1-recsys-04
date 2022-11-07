@@ -29,7 +29,6 @@ def main(args):
     if args.MODEL in ('FM', 'FFM'):
         data = context_data_load(args)
     elif args.MODEL in ('NCF', 'WDN', 'DCN'):
-        # data = donggun_data_load(args)
         data = dl_data_load(args)
     elif args.MODEL == 'CNN_FM':
         data = image_data_load(args)
@@ -38,8 +37,7 @@ def main(args):
         nltk.download('punkt')
         data = text_data_load(args)
     elif args.MODEL == 'donggun':
-        data = context_data_load(args)
-        # data = donggun_data_load(args)
+        data = donggun_data_load(args)
     else:
         pass
 
@@ -62,8 +60,6 @@ def main(args):
         data = text_data_loader(args, data)
 
     elif args.MODEL == 'donggun':
-        # data = context_data_split(args, data)
-        # data = context_data_loader(args, data)#이놈들만 바꿔주면 원래 전처리방식
         data = donggun_data_split(args, data)
         data = donggun_data_loader(args, data)
     else:
@@ -86,7 +82,6 @@ def main(args):
     elif args.MODEL=='DeepCoNN':
         model = DeepCoNN(args, data)
     elif args.MODEL=='donggun':
-        # model = FieldAwareFactorizationMachineModel(args, data)
         model = donggun(args, data)
     else:
         pass
@@ -107,15 +102,15 @@ def main(args):
     elif args.MODEL == 'donggun':
         predicts  = model.predict(data['test_dataloader'], data)
     else:
-        pass #여기는 왜 굳이 나눠져 있는 것일까? 아무튼 테스트셋에 대해 모델 적용
+        pass
 
     ######################## SAVE PREDICT
     print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
     submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
     if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN'):
         submission['rating'] = predicts
-    elif args.MODEL in ('donggun'): #predicts가 처음부터 데이터프레임 형태로 나오게 하고, 판다스의 컨캣을 이용하는 방법을 쓸 수도.
-        submission['rating'] = predicts #아니면 순서에 맞게 값이 들어가도록 하는 방법을 구상해야만 한다.
+    elif args.MODEL in ('donggun'):
+        submission['rating'] = predicts
     else:
         pass
 
@@ -163,14 +158,12 @@ if __name__ == "__main__":
 
     ############### WDN
     arg('--WDN_EMBED_DIM', type=int, default=16, help='WDN에서 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--WDN_MLP_DIMS', type=list, default=(64, 64), help='WDN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    #원래 디폴트는 (16, 16)
+    arg('--WDN_MLP_DIMS', type=list, default=(16, 16), help='WDN에서 MLP Network의 차원을 조정할 수 있습니다.')
     arg('--WDN_DROPOUT', type=float, default=0.2, help='WDN에서 Dropout rate를 조정할 수 있습니다.')
 
     ############### DCN
     arg('--DCN_EMBED_DIM', type=int, default=16, help='DCN에서 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--DCN_MLP_DIMS', type=list, default=(32, 32), help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    #원래 디폴트는 (16, 16)
+    arg('--DCN_MLP_DIMS', type=list, default=(16, 16), help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
     arg('--DCN_DROPOUT', type=float, default=0.2, help='DCN에서 Dropout rate를 조정할 수 있습니다.')
     arg('--DCN_NUM_LAYERS', type=int, default=3, help='DCN에서 Cross Network의 레이어 수를 조정할 수 있습니다.')
 
@@ -186,9 +179,6 @@ if __name__ == "__main__":
     arg('--DEEPCONN_KERNEL_SIZE', type=int, default=3, help='DEEP_CONN에서 1D conv의 kernel 크기를 조정할 수 있습니다.')
     arg('--DEEPCONN_WORD_DIM', type=int, default=768, help='DEEP_CONN에서 1D conv의 입력 크기를 조정할 수 있습니다.')
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
-
-    ####### donggun
-    arg('--donggun_EMBED_DIM', type=int, default=16, help='FFM에서 embedding시킬 차원을 조정할 수 있습니다.')
 
     args = parser.parse_args()
     main(args)
