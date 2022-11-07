@@ -13,7 +13,7 @@
 &nbsp;
 &nbsp;
 ## 🙋🏻‍♂️🙋🏻‍♀️  Member
-<table>
+<table align="center">
   <tr height="155px">
     <td align="center" width="150px">
       <a href="https://github.com/NooKo92"><img src="https://avatars.githubusercontent.com/NooKo92"/></a>
@@ -28,7 +28,7 @@
       <a href="https://github.com/yhw991228"><img src="https://avatars.githubusercontent.com/yhw991228"/></a>
     </td>
   </tr>
-  <tr height="90px">
+  <tr height="80px">
     <td align=s"center" width="150px">
       <a href="https://github.com/NooKo92">고현욱_T4007</a>
     </td>
