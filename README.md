@@ -62,13 +62,16 @@
 #### Input
 - ```training_rating.csv``` : 각 사용자가 책에 대해 평점을 매긴 내역
 ![train](readme_img/training_rates.png)
+&nbsp; 
 - ```users.csv``` : 사용자에 대한 정보
 ![user](readme_img/users.png)
+&nbsp; 
 - ```books.csv``` : 책에 대한 정보
 ![book](readme_img/books.png)
+&nbsp; 
 - ```Image/``` : 책 이미지
 ![book_img](readme_img/book_img.png)
-
+&nbsp; 
 ## Folder Structure
 
   ```
