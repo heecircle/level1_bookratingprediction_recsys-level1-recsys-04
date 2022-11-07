@@ -14,31 +14,31 @@
 &nbsp;
 ## 🙋🏻‍♂️🙋🏻‍♀️  Member
 <table>
-  <tr height="125px">
-    <td align="center" width="120px">
+  <tr height="155px">
+    <td align="center" width="150px">
       <a href="https://github.com/NooKo92"><img src="https://avatars.githubusercontent.com/NooKo92"/></a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="150px">
       <a href="https://github.com/Zerotay"><img src="https://avatars.githubusercontent.com/Zerotay"/></a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="150px">
       <a href="https://github.com/NIckmin96"><img src="https://avatars.githubusercontent.com/NIckmin96"/></a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="150px">
       <a href="https://github.com/yhw991228"><img src="https://avatars.githubusercontent.com/yhw991228"/></a>
     </td>
   </tr>
-  <tr height="70px">
-    <td align=s"center" width="120px">
+  <tr height="90px">
+    <td align=s"center" width="150px">
       <a href="https://github.com/NooKo92">고현욱_T4007</a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="150px">
       <a href="https://github.com/Zerotay">김동건_4026</a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="150px">
       <a href="https://github.com/NIckmin96">민복기_T4074</a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="150px">
       <a href="https://github.com/yhw991228">용희원_T4130</a>
     </td>
   </tr>
