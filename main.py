@@ -9,13 +9,14 @@ from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 from src.data import text_data_load, text_data_split, text_data_loader
 from src.data import donggun_data_load, donggun_data_split, donggun_data_loader
+from src.data import cat_data_load, cat_data_split
 
 from src import FactorizationMachineModel, FieldAwareFactorizationMachineModel
 from src import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel
 from src import CNN_FM
 from src import DeepCoNN
 from src import donggun
-
+from src import CatBoost
 import wandb
 
 
@@ -38,6 +39,8 @@ def main(args):
         data = text_data_load(args)
     elif args.MODEL == 'donggun':
         data = donggun_data_load(args)
+    elif args.MODEL == 'CAT':
+        data = cat_data_load(args)
     else:
         pass
 
@@ -62,6 +65,8 @@ def main(args):
     elif args.MODEL == 'donggun':
         data = donggun_data_split(args, data)
         data = donggun_data_loader(args, data)
+    elif args.MODEL=='CAT':
+        data = cat_data_split(args, data)
     else:
         pass
 
@@ -83,6 +88,8 @@ def main(args):
         model = DeepCoNN(args, data)
     elif args.MODEL=='donggun':
         model = donggun(args, data)
+    elif args.MODEL=='CAT':
+        model = CatBoost(args, data)
     else:
         pass
 
@@ -101,13 +108,15 @@ def main(args):
         predicts  = model.predict(data['test_dataloader'])
     elif args.MODEL == 'donggun':
         predicts  = model.predict(data['test_dataloader'], data)
+    elif args.MODEL=='CAT':
+        predicts = model.predict()
     else:
         pass
 
     ######################## SAVE PREDICT
     print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
     submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN'):
+    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'CAT'):
         submission['rating'] = predicts
     elif args.MODEL in ('donggun'):
         submission['rating'] = predicts
@@ -130,7 +139,7 @@ if __name__ == "__main__":
 
     ############### BASIC OPTION
     arg('--DATA_PATH', type=str, default='data/', help='Data path를 설정할 수 있습니다.')
-    arg('--MODEL', type=str, choices=['FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'donggun'],
+    arg('--MODEL', type=str, choices=['FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'donggun', 'CAT'],
                                 help='학습 및 예측할 모델을 선택할 수 있습니다.')
     arg('--DATA_SHUFFLE', type=bool, default=True, help='데이터 셔플 여부를 조정할 수 있습니다.')
     arg('--TEST_SIZE', type=float, default=0.2, help='Train/Valid split 비율을 조정할 수 있습니다.')

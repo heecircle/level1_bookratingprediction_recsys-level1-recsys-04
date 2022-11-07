@@ -1,17 +1,17 @@
 # LEVEL1 P Stage - Book Recommendation
 
-&nbsp; 
+&nbsp;
 ### RecSys_4조
 ![image](readme_img/book_prediction_img.png)
-&nbsp; 
+&nbsp;
 
-### 🥈 최종 결과 
+### 🥈 최종 결과
 
 ![image2](readme_img/award_result.png)
 
-&nbsp; 
-&nbsp; 
-&nbsp; 
+&nbsp;
+&nbsp;
+&nbsp;
 ## 🙋🏻‍♂️🙋🏻‍♀️  Member
 <table>
   <tr height="125px">
@@ -43,7 +43,7 @@
     </td>
   </tr>
 </table>
-&nbsp; 
+&nbsp;
 
 ## Project Overview
 
@@ -55,7 +55,7 @@
 
 책과 관련된 정보와 소비자의 정보, 그리고 소비자가 실제로 부여한 평점, 총 3가지의 데이터 셋(users.csv, books.csv, train_ratings.csv)을 활용하여 이번 대회에서는 각 사용자가 주어진 책에 대해 얼마나 평점을 부여할지에 대해 예측하게 됩니다.
 
-&nbsp; 
+&nbsp;
 
 ## 🗂️ Dataset
 
@@ -95,21 +95,22 @@
   ├── src/
   │   ├── data/
   │   │   ├── __init__.py
+  │   │   ├── CatBoost_data.py
   │   │   ├── context_data.py
   │   │   ├── dl_data.py
   │   │   ├── donggun_data.py
   │   │   ├── image_data.py
   │   │   └── text_data.py
-  │   ├── data/
+  │   ├── ensembles/
   │   │   └── ensembles.py
   │   └── models/
-  │   │   ├── _models.py
-  │   │   ├── context_models.py
-  │   │   ├── dl_models.py
-  │   │   ├── donggun_model.py
-  │   │   ├── image_models.py
-  │   │   └── text_models.py
-  │  
+  │       ├── _models.py
+  │       ├── CatBoost_model.py
+  │       ├── context_models.py
+  │       ├── dl_models.py
+  │       ├── donggun_model.py
+  │       ├── image_models.py
+  │       └── text_models.py
+  │
   └── readme_img/
   ```
-

@@ -11,5 +11,6 @@ from .models.dl_models import NeuralCollaborativeFiltering, WideAndDeepModel, De
 from .models.image_models import CNN_FM
 from .models.text_models import DeepCoNN
 from .models.donggun_model import donggun
+from .models.CatBoost_model import CatBoost
 
 from .ensembles.ensembles import Ensemble
