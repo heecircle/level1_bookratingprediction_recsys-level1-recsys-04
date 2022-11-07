@@ -1,7 +1,7 @@
 # LEVEL1 P Stage - Book Recommendation
 
 &nbsp;
-### RecSys_4조
+### 4️⃣ RecSys_4조 4️⃣
 ![image](readme_img/book_prediction_img.png)
 &nbsp;
 
@@ -10,8 +10,7 @@
 ![image2](readme_img/result_img.png)
 
 &nbsp;
-&nbsp;
-&nbsp;
+
 ## 🙋🏻‍♂️🙋🏻‍♀️  Member
 <table align="center">
   <tr height="155px">
@@ -45,7 +44,7 @@
 </table>
 &nbsp;
 
-## Project Overview
+## 🖼️ Project Overview
 
 일반적으로 책 한 권은 원고지 기준 800~1000매 정도 되는 분량을 가지고 있습니다.
 
@@ -57,22 +56,28 @@
 
 &nbsp;
 
-## 🗂️ Dataset
+## 📀 Dataset
+&nbsp; 
+### INPUT
+&nbsp; 
 
-#### Input
 - ```training_rating.csv``` : 각 사용자가 책에 대해 평점을 매긴 내역
 ![train](readme_img/training_rates.png)
 &nbsp; 
+
 - ```users.csv``` : 사용자에 대한 정보
 ![user](readme_img/users.png)
 &nbsp; 
+
 - ```books.csv``` : 책에 대한 정보
 ![book](readme_img/books.png)
 &nbsp; 
+
 - ```Image/``` : 책 이미지
 ![book_img](readme_img/book_img.png)
-&nbsp; 
-## Folder Structure
+
+
+## 🗂️ Folder Structure
 
   ```
   level1_bookratingprediction_recsys-level1-recsys-04
