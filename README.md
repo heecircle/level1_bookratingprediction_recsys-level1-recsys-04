@@ -1,83 +1,71 @@
 # LEVEL1 P Stage - Book Recommendation
 
+&nbsp; 
+### RecSys_4조
+![image](readme_img/book_prediction_img.png)
+&nbsp; 
 
-## RecSys_4
+### 🥈 최종 결과 
 
+![image2](readme_img/award_result.png)
 
-|고현욱|김동건|김현희|민복기|용희원|
-|---|---|---|---|---|
-|T4007|T4026|T4061|T4074|T4130|
-|🫶🏻|🫶🏻|🫶🏻|🫶🏻|🫶🏻|
+&nbsp; 
+&nbsp; 
+&nbsp; 
+## 🙋🏻‍♂️🙋🏻‍♀️  Member
+<table>
+  <tr height="125px">
+    <td align="center" width="120px">
+      <a href="https://github.com/NooKo92"><img src="https://avatars.githubusercontent.com/NooKo92"/></a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/Zerotay"><img src="https://avatars.githubusercontent.com/Zerotay"/></a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/NIckmin96"><img src="https://avatars.githubusercontent.com/NIckmin96"/></a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/yhw991228"><img src="https://avatars.githubusercontent.com/yhw991228"/></a>
+    </td>
+  </tr>
+  <tr height="70px">
+    <td align=s"center" width="120px">
+      <a href="https://github.com/NooKo92">고현욱_T4007</a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/Zerotay">김동건_4026</a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/NIckmin96">민복기_T4074</a>
+    </td>
+    <td align="center" width="120px">
+      <a href="https://github.com/yhw991228">용희원_T4130</a>
+    </td>
+  </tr>
+</table>
+&nbsp; 
 
-### train records
+## Project Overview
 
-|File Name|model|epochs|batchsize|rmse|trainer|etc|
-|---|---|---|---|---|---|---|
-||||||||
-||||||||
+일반적으로 책 한 권은 원고지 기준 800~1000매 정도 되는 분량을 가지고 있습니다.
 
-### 🚂 python main.py -- Options
+뉴스기사나 짧은 러닝 타임의 동영상처럼 간결하게 콘텐츠를 즐길 수 있는 ‘숏폼 콘텐츠’는 소비자들이 부담 없이 쉽게 선택할 수 있지만, 책 한권을 모두 읽기 위해서는 보다 긴 물리적인 시간이 필요합니다. 또한 소비자 입장에서는 제목, 저자, 표지, 카테고리 등 한정된 정보로 각자가 콘텐츠를 유추하고 구매 유무를 결정해야 하기 때문에 상대적으로 선택에 더욱 신중을 가하게 됩니다.
 
-🫶🏻 나중에 폴더 안으로 들어갈 부분..
-####  Basic / Train Options
+해당 경진대회는 이러한 소비자들의 책 구매 결정에 대한 도움을 주기 위한 개인화된 상품 추천 대회입니다.
 
-|Basic Option|Description||
-|---|---|---|
-|--DATA_PATH|Data Path 설정||
-|--MODEL|학습 및 예측할 모델 선택||
-|--DATA_SHUFFLE|데이터 셔플 여부를 조정||
-|--TEST_SIZE|Train/Valid split 비율을 조정||
+책과 관련된 정보와 소비자의 정보, 그리고 소비자가 실제로 부여한 평점, 총 3가지의 데이터 셋(users.csv, books.csv, train_ratings.csv)을 활용하여 이번 대회에서는 각 사용자가 주어진 책에 대해 얼마나 평점을 부여할지에 대해 예측하게 됩니다.
 
-|Training Option|Description||
-|---|---|---|
-|--BATCH_SIZE|Batch size를 조정||
-|--EPOCHS|Epoch 수를 조정||
-|--LR|Learning Rate를 조정||
-|--WEIGHT_DECAY|Adam optimizer에서 정규화에 사용하는 값을 조정||
+&nbsp; 
 
-#### MODEL OPTIONS
+## 🗂️ Dataset
 
-|FM Option|Description||
-|---|---|---|
-|--FM_EMBED_DIM|FM에서 embedding시킬 차원을 조정||
-
-|FFM Option|Description||
-|---|---|---|
-|--FFM_EMBED_DIM|FFM에서 embedding시킬 차원을 조정||
-
-|NCF Option|Description||
-|---|---|---|
-|--NCF_EMBED_DIM|NCF에서 embedding시킬 차원을 조정||
-|--NCF_MLP_DIMS|NCF에서 MLP Network의 차원을 조정||
-|--NCF_DROPOUT|NCF에서 Dropout rate를 조정||
-
-
-|WDN Option|Description||
-|---|---|---|
-|--WDN_EMBED_DIM|WDN에서 embedding시킬 차원을 조정||
-|--WDN_MLP_DIMS|WDN에서 MLP Network의 차원을 조정||
-|--WDN_DROPOUT|WDN에서 Dropout rate를 조정||
-
-|DCN Option|Description||
-|---|---|---|
-|--DCN_EMBED_DIM|DCN에서 embedding시킬 차원을 조정||
-|--DCN_MLP_DIMS|DCN에서 MLP Network의 차원을 조정||
-|--DCN_DROPOUT|DCN에서 Dropout rate를 조정||
-|--DCN_NUM_LAYERS|DCN에서 Cross Network의 레이어 수를 조정||
-
-|CNN_FM Option|Description||
-|---|---|---|
-|--CNN_FM_EMBED_DIM|CNN_FM에서 user와 item에 대한 embedding시킬 차원을 조정||
-|--CNN_FM_LATENT_DIM|CNN_FM에서 user/item/image에 대한 latent 차원을 조정||
-
-|DeepCoNN Option|Description||
-|---|---|---|
-|--DEEPCONN_VECTOR_CREATE|DEEP_CONN에서 text vector 생성 여부를 조정|최초 학습에만 True로 설정|
-|--DEEPCONN_EMBED_DIM|DEEP_CONN에서 user와 item에 대한 embedding시킬 차원을 조정||
-|--DEEPCONN_LATENT_DIM|DEEP_CONN에서 user/item/image에 대한 latent 차원을 조정||
-|--DEEPCONN_CONV_1D_OUT_DIM|DEEP_CONN에서 1D conv의 출력 크기를 조정||
-|--DEEPCONN_KERNEL_SIZE|DEEP_CONN에서 1D conv의 kernel 크기를 조정|kernel : 3|
-|--DEEPCONN_WORD_DIM|DEEP_CONN에서 1D conv의 입력 크기를 조정|Word : 768|
-|--DEEPCONN_OUT_DIM|DEEP_CONN에서 1D conv의 출력 크기를 조정||
-
+#### Input
+- ```training_rating.csv``` : 각 사용자가 책에 대해 평점을 매긴 내역
+![train](readme_img/training_rates.png)
+- ```users.csv``` : 사용자에 대한 정보
+![user](readme_img/users.png)
+- ```books.csv``` : 책에 대한 정보
+![book](readme_img/books.png)
+- ```Image/``` : 책 이미지
+![book_img](readme_img/book_img.png)
 
