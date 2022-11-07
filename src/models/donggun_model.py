@@ -16,8 +16,6 @@ class donggun:
         super().__init__()
 
         self.criterion = RMSELoss()
-        # self.criterion = nn.CrossEntropyLoss().to(args.DEVICE)
-
 
         self.train_dataloader = data['train_dataloader']
         self.valid_dataloader = data['valid_dataloader']
@@ -55,11 +53,6 @@ class donggun:
 
                 y = self.model(fields)
                 loss = self.criterion(y, target.float())
-                # y = self.model(fields) #모델에서 소맥해서 꺼내고.
-                # print(y.shape)
-                # print(target.shape)
-                # loss = self.criterion(y, target.long())
-                # loss = self.criterion(y, target)
 
                 self.model.zero_grad()
                 loss.backward()
@@ -93,21 +86,15 @@ class donggun:
         self.model.eval()
         predicts = list()
 
-        # self.data = data #일단 다 가져와 for cold start
-        # no_exist = set(self.data['test']['user_id']) - set(self.data['train']['user_id'])
-        #학습셋에는 없는 테스트셋 유저, 즉 콜드 스타트. 참고로 전처리 과정에서 이들은 고유 인덱스로 치환됐다.
-        #이제 이 놈들한테 IBCF기반의 추천을 해줄 수 있으면 된다.
+        self.data = data #for cold start
+        no_exist = set(self.data['test']['user_id']) - set(self.data['train']['user_id'])
 
         with torch.no_grad():
             for fields in tqdm.tqdm(dataloader, smoothing=0, mininterval=1.0):
-                #fields의 한 값은 유저id, isbn, 전처리 과정에 들어간 범주들 해서 10개의 차원인 리스트
-                # if int(fields[0][0][0]) in no_exist:
-                #     predicts.extend([5.8])
-                #     # 콜드 스타트는 다 7점 때려보자
-                #     continue
+                if int(fields[0][0][0]) in no_exist:
+                    predicts.extend([7.0])
+                    continue
                 fields = fields[0].to(self.device)
-
-
 
                 y = self.model(fields)
                 predicts.extend(y.tolist())
