@@ -7,7 +7,7 @@
 
 ### 🥈 최종 결과
 
-![image2](readme_img/award_result.png)
+![image2](readme_img/result_img.png)
 
 &nbsp;
 &nbsp;
