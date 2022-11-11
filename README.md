@@ -28,7 +28,7 @@
     </td>
   </tr>
   <tr height="80px">
-    <td align=s"center" width="150px">
+    <td align="center" width="150px">
       <a href="https://github.com/NooKo92">고현욱_T4007</a>
     </td>
     <td align="center" width="150px">
