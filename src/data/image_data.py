@@ -9,30 +9,31 @@ from torch.autograd import Variable
 from tqdm import tqdm
 import os
 
-class Image_Dataset(Dataset):
+
+class Image_Dataset(Dataset):                               #################### <-------------------- 6 ####################
     def __init__(self, user_isbn_vector, img_vector, label):
-        self.user_isbn_vector = user_isbn_vector
-        self.img_vector = img_vector
-        self.label = label
+        self.user_isbn_vector = user_isbn_vector                                                # user_id, isbn 행렬
+        self.img_vector = img_vector                                                            # 이미지 텐서
+        self.label = label                                                                      # rating
     def __len__(self):
-        return self.user_isbn_vector.shape[0]
+        return self.user_isbn_vector.shape[0]                                                   # 평가한 횟수
     def __getitem__(self, i):
         return {
-                'user_isbn_vector' : torch.tensor(self.user_isbn_vector[i], dtype=torch.long),
-                'img_vector' : torch.tensor(self.img_vector[i], dtype=torch.float32),
-                'label' : torch.tensor(self.label[i], dtype=torch.float32),
+                'user_isbn_vector' : torch.tensor(self.user_isbn_vector[i], dtype=torch.long),  # i번째 행의 user_id와 isbn
+                'img_vector' : torch.tensor(self.img_vector[i], dtype=torch.float32),           # i번째 행의 이미지 텐서
+                'label' : torch.tensor(self.label[i], dtype=torch.float32),                     # i번째 행의 rating
                 }
 
 
-def image_vector(path):
-    img = Image.open(path)
-    scale = transforms.Resize((32, 32))
-    tensor = transforms.ToTensor()
-    img_fe = Variable(tensor(scale(img)))
-    return img_fe
+def image_vector(path):                     #################### <-------------------- 3 ####################
+    img = Image.open(path)                  # 이미지 파일 열기
+    scale = transforms.Resize((32, 32))     # 이미지 크기 변경
+    tensor = transforms.ToTensor()          
+    img_fe = Variable(tensor(scale(img)))   # torch.autograd.Variable은 더 이상 사용되지 않고 tensor를 return한다.
+    return img_fe                           # 이미지 텐서 return
 
 
-def process_img_data(df, books, user2idx, isbn2idx, train=False):
+def process_img_data(df, books, user2idx, isbn2idx, train=False):       #################### <-------------------- 2 ####################
     books_ = books.copy()
     books_['isbn'] = books_['isbn'].map(isbn2idx)
 
@@ -103,11 +104,11 @@ def image_data_load(args):
             'img_test':img_test,
             }
 
-    return data
+    return data                         #################### --------------------> Cycle 1 종료 ####################
 
 
-def image_data_split(args, data):
-    X_train, X_valid, y_train, y_valid = train_test_split(
+def image_data_split(args, data):           #################### <-------------------- 4 (Cycle 2) ####################
+    X_train, X_valid, y_train, y_valid = train_test_split(                                          # validation set 만들기
                                                         data['img_train'][['user_id', 'isbn', 'img_vector']],
                                                         data['img_train']['rating'],
                                                         test_size=args.TEST_SIZE,
@@ -115,11 +116,11 @@ def image_data_split(args, data):
                                                         shuffle=True
                                                         )
     data['X_train'], data['X_valid'], data['y_train'], data['y_valid'] = X_train, X_valid, y_train, y_valid
-    return data
+    return data                             #################### --------------------> Cycle 2 종료 ####################
 
 
-def image_data_loader(args, data):
-    train_dataset = Image_Dataset(
+def image_data_loader(args, data):                              #################### <-------------------- 5 (Cycle 3) ####################
+    train_dataset = Image_Dataset(                              #################### <-------------------- 6 ####################
                                 data['X_train'][['user_id', 'isbn']].values,
                                 data['X_train']['img_vector'].values,
                                 data['y_train'].values
@@ -141,4 +142,4 @@ def image_data_loader(args, data):
     test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size=1, num_workers=0, shuffle=False)
     data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
 
-    return data
+    return data                         #################### --------------------> Cycle 3 종료 ####################

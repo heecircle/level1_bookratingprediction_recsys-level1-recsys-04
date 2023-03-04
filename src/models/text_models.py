@@ -154,7 +154,19 @@ class DeepCoNN:
                 predicts.extend(y.tolist())
         return rmse(targets, predicts)
 
-
+    def predict_train(self):
+        targets, predicts = list(), list()
+        with torch.no_grad():
+            for data in self.valid_data_loader:
+                if len(data)==3:
+                    fields, target = [data['user_summary_merge_vector'].to(self.device), data['item_summary_vector'].to(self.device)], data['label'].to(self.device)
+                elif len(data)==4:
+                    fields, target = [data['user_isbn_vector'].to(self.device), data['user_summary_merge_vector'].to(self.device), data['item_summary_vector'].to(self.device)], data['label'].to(self.device)
+                y = self.model(fields)
+                targets.extend(target.tolist())
+                predicts.extend(y.tolist())
+        return rmse(targets, predicts)
+    
     def predict(self, test_data_loader):
         self.model.eval()
         self.model.load_state_dict(torch.load('./models/{}.pt'.format(self.model_name)))

@@ -19,7 +19,7 @@ class CatBoost:
         self.learning_rate = args.LR
         self.seed = args.SEED
 
-        self.model = CatBoostRegressor(iterations=self.epochs, depth=6, learning_rate=self.learning_rate, random_seed=self.seed,
+        self.model = CatBoostRegressor(iterations=self.epochs, depth=6, learning_rate=self.learning_rate, random_seed=self.seed,  
             verbose=50)
 
 

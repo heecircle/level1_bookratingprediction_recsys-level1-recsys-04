@@ -7,10 +7,10 @@ from .utils import seed_everything
 # from .data.text_data import text_data_load, text_data_split, text_data_loader
 
 from .models.context_models import FactorizationMachineModel, FieldAwareFactorizationMachineModel
+from .models.donggun_model import donggun
 from .models.dl_models import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel
 from .models.image_models import CNN_FM
 from .models.text_models import DeepCoNN
-from .models.donggun_model import donggun
 from .models.CatBoost_model import CatBoost
 
 from .ensembles.ensembles import Ensemble

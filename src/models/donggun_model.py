@@ -16,6 +16,8 @@ class donggun:
         super().__init__()
 
         self.criterion = RMSELoss()
+        # self.criterion = nn.CrossEntropyLoss().to(args.DEVICE)
+
 
         self.train_dataloader = data['train_dataloader']
         self.valid_dataloader = data['valid_dataloader']
@@ -53,6 +55,11 @@ class donggun:
 
                 y = self.model(fields)
                 loss = self.criterion(y, target.float())
+                # y = self.model(fields)
+                # print(y.shape)
+                # print(target.shape)
+                # loss = self.criterion(y, target.long())
+                # loss = self.criterion(y, target)
 
                 self.model.zero_grad()
                 loss.backward()
@@ -82,19 +89,19 @@ class donggun:
         return rmse(targets, predicts)
 
 
-    def predict(self, dataloader, data):
+    def predict(self, dataloader):
         self.model.eval()
         predicts = list()
 
-        self.data = data #for cold start
-        no_exist = set(self.data['test']['user_id']) - set(self.data['train']['user_id'])
-
+        # self.data = data 
+        # no_exist = set(self.data['test']['user_id']) - set(self.data['train']['user_id'])
+       
         with torch.no_grad():
             for fields in tqdm.tqdm(dataloader, smoothing=0, mininterval=1.0):
-                if int(fields[0][0][0]) in no_exist:
-                    predicts.extend([7.0])
-                    continue
+
                 fields = fields[0].to(self.device)
+
+
 
                 y = self.model(fields)
                 predicts.extend(y.tolist())

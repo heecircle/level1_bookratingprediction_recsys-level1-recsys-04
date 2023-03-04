@@ -10,12 +10,11 @@ from ._models import _FactorizationMachineModel, _FieldAwareFactorizationMachine
 from ._models import rmse, RMSELoss
 import wandb
 
-
 class FactorizationMachineModel:
 
     def __init__(self, args, data):
         super().__init__()
-
+        wandb.config.update(args)
         self.criterion = RMSELoss()
 
         self.train_dataloader = data['train_dataloader']
@@ -91,7 +90,7 @@ class FieldAwareFactorizationMachineModel:
 
     def __init__(self, args, data):
         super().__init__()
-
+        wandb.config.update(args)
         self.criterion = RMSELoss()
 
         self.train_dataloader = data['train_dataloader']

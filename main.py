@@ -8,26 +8,22 @@ from src.data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 from src.data import text_data_load, text_data_split, text_data_loader
-from src.data import donggun_data_load, donggun_data_split, donggun_data_loader
 from src.data import cat_data_load, cat_data_split
 
-from src import FactorizationMachineModel, FieldAwareFactorizationMachineModel
+from src import FactorizationMachineModel, FieldAwareFactorizationMachineModel, donggun
 from src import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel
 from src import CNN_FM
 from src import DeepCoNN
-from src import donggun
 from src import CatBoost
 import wandb
-
 
 def main(args):
     seed_everything(args.SEED)
     now = time.localtime()
-
     ######################## DATA LOAD
     print(f'--------------- {args.MODEL} Load Data ---------------')
     wandb.init(project = args.MODEL, name = time.strftime('%m/%d %H:%M:%S',now), config={"epochs": args.EPOCHS, "batch_size": 1024})
-    if args.MODEL in ('FM', 'FFM'):
+    if args.MODEL in ('FM', 'FFM', 'DON'):
         data = context_data_load(args)
     elif args.MODEL in ('NCF', 'WDN', 'DCN'):
         data = dl_data_load(args)
@@ -37,8 +33,6 @@ def main(args):
         import nltk
         nltk.download('punkt')
         data = text_data_load(args)
-    elif args.MODEL == 'donggun':
-        data = donggun_data_load(args)
     elif args.MODEL == 'CAT':
         data = cat_data_load(args)
     else:
@@ -46,7 +40,7 @@ def main(args):
 
     ######################## Train/Valid Split
     print(f'--------------- {args.MODEL} Train/Valid Split ---------------')
-    if args.MODEL in ('FM', 'FFM'):
+    if args.MODEL in ('FM', 'FFM', 'DON'):
         data = context_data_split(args, data)
         data = context_data_loader(args, data)
 
@@ -61,10 +55,6 @@ def main(args):
     elif args.MODEL=='DeepCoNN':
         data = text_data_split(args, data)
         data = text_data_loader(args, data)
-
-    elif args.MODEL == 'donggun':
-        data = donggun_data_split(args, data)
-        data = donggun_data_loader(args, data)
     elif args.MODEL=='CAT':
         data = cat_data_split(args, data)
     else:
@@ -76,6 +66,8 @@ def main(args):
         model = FactorizationMachineModel(args, data)
     elif args.MODEL=='FFM':
         model = FieldAwareFactorizationMachineModel(args, data)
+    elif args.MODEL=='DON':
+        model = donggun(args, data)
     elif args.MODEL=='NCF':
         model = NeuralCollaborativeFiltering(args, data)
     elif args.MODEL=='WDN':
@@ -86,8 +78,6 @@ def main(args):
         model = CNN_FM(args, data)
     elif args.MODEL=='DeepCoNN':
         model = DeepCoNN(args, data)
-    elif args.MODEL=='donggun':
-        model = donggun(args, data)
     elif args.MODEL=='CAT':
         model = CatBoost(args, data)
     else:
@@ -97,17 +87,15 @@ def main(args):
     print(f'--------------- {args.MODEL} TRAINING ---------------')
     wandb.init(project="f'{model.name}'")
     model.train()
-
+    
     ######################## INFERENCE
     print(f'--------------- {args.MODEL} PREDICT ---------------')
-    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN'):
+    if args.MODEL in ('FM', 'FFM', 'DON', 'NCF', 'WDN', 'DCN'):
         predicts = model.predict(data['test_dataloader'])
     elif args.MODEL=='CNN_FM':
-        predicts  = model.predict(data['test_dataloader'], data)
+        predicts  = model.predict(data['test_dataloader'])
     elif args.MODEL=='DeepCoNN':
         predicts  = model.predict(data['test_dataloader'])
-    elif args.MODEL == 'donggun':
-        predicts  = model.predict(data['test_dataloader'], data)
     elif args.MODEL=='CAT':
         predicts = model.predict()
     else:
@@ -116,9 +104,7 @@ def main(args):
     ######################## SAVE PREDICT
     print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
     submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'CAT'):
-        submission['rating'] = predicts
-    elif args.MODEL in ('donggun'):
+    if args.MODEL in ('FM', 'FFM', 'DON', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'CAT'):
         submission['rating'] = predicts
     else:
         pass
@@ -139,12 +125,12 @@ if __name__ == "__main__":
 
     ############### BASIC OPTION
     arg('--DATA_PATH', type=str, default='data/', help='Data path를 설정할 수 있습니다.')
-    arg('--MODEL', type=str, choices=['FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'donggun', 'CAT'],
+    arg('--MODEL', type=str, choices=['FM', 'FFM', 'DON', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'CAT'],
                                 help='학습 및 예측할 모델을 선택할 수 있습니다.')
     arg('--DATA_SHUFFLE', type=bool, default=True, help='데이터 셔플 여부를 조정할 수 있습니다.')
     arg('--TEST_SIZE', type=float, default=0.2, help='Train/Valid split 비율을 조정할 수 있습니다.')
     arg('--SEED', type=int, default=42, help='seed 값을 조정할 수 있습니다.')
-
+    
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
     arg('--EPOCHS', type=int, default=10, help='Epoch 수를 조정할 수 있습니다.')
