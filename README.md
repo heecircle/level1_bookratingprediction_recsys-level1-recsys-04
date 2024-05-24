@@ -24,7 +24,7 @@
       <a href="https://github.com/NIckmin96"><img src="https://avatars.githubusercontent.com/NIckmin96"/></a>
     </td>
     <td align="center" width="150px">
-      <a href="https://github.com/yhw991228"><img src="https://avatars.githubusercontent.com/yhw991228"/></a>
+      <a href="https://github.com/yhw991228"><img src="https://avatars.githubusercontent.com/heecircle"/></a>
     </td>
   </tr>
   <tr height="80px">
@@ -38,7 +38,7 @@
       <a href="https://github.com/NIckmin96">민복기_T4074</a>
     </td>
     <td align="center" width="150px">
-      <a href="https://github.com/yhw991228">용희원_T4130</a>
+      <a href="https://github.com/heecircle">용희원_T4130</a>
     </td>
   </tr>
 </table>
